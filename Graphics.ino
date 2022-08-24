@@ -12,7 +12,10 @@ IPAddress gateway(192,168,11,1);
 IPAddress subnet(255,255,255,0);
 ESPVGAX2 vga;
 
-char webpage[] PROGMEM = R"=====(<!DOCTYPE html>
+String value="";
+
+char webpage[] PROGMEM = R"=====(
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -49,6 +52,15 @@ char webpage[] PROGMEM = R"=====(<!DOCTYPE html>
   </div>
 </body>
 <script>
+var new_msg="";
+const Http = new XMLHttpRequest();
+const loop = () => {
+  new_msg=document.getElementById(textbox).value;
+  Http.open("GET", "http://192.168.11.4/endp?value=${new_msg}");
+  Http.send();
+}
+
+setInterval(1, loop);
 </script>
 </html>
 )=====";
@@ -57,6 +69,8 @@ char matrix[60][64];
 String text = "";
 bool f = true;
 void loop() {
+  
+  server.handleClient();
   while (1) {
     while (Serial.available()) {
       char c = Serial.read();
@@ -77,6 +91,11 @@ void loop() {
     vga.print(text.c_str(), 0, 0, 0xf, true, sizeof matrix);
   }
 }
+
+void endp() {
+    server.send(200,"text/plain",String(value));
+}
+
 void setup() { 
   Serial.begin(9600);      
   
@@ -89,4 +108,6 @@ void setup() {
   IPAddress IP = WiFi.softAPIP();
 
   server.on("/",[](){server.send(200,"text/html", webpage);});
+  server.on("/endp", endp);
+  server.begin();
 }

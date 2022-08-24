@@ -6,34 +6,43 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Keyboard</title>
 <style>
-	div {
-		text-align: center;
-	}
-	body {
-	    background-color: #040404;
-	}
-	button {
-		background-color: black;
-		color: white;
-	}
-	.mainContainer {
+ div {
+    text-align: center;
+  }
+  body {
+      background-color: #040404;
+  }
+  button {
+    background-color: black;
+    color: white;
+  }
+  .mainContainer {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translateY(-50%) translateX(-50%);
-	}
+  }
 </style>
 </head>
 <body>
-	<div class="mainContainer">
-			<div>
-				<input type="textbox" id="text">
-			</div>
-			<div>
-				<button id="btn">Submit</button>
-			</div>
-	</div>
+  <div class="mainContainer">
+      <div>
+        <input type="textbox" id="text">
+      </div>
+      <div>
+        <button id="btn">Submit</button>
+      </div>
+  </div>
 </body>
 <script>
+var new_msg="";
+const Http = new XMLHttpRequest();
+const loop = () => {
+  new_msg=document.getElementById(textbox).value;
+  Http.open("GET", "http://192.168.11.4/endp?value=${new_msg}");
+  Http.send();
+}
+
+setInterval(1, loop);
 </script>
 </html>

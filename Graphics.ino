@@ -12,8 +12,7 @@ IPAddress gateway(192,168,11,1);
 IPAddress subnet(255,255,255,0);
 ESPVGAX2 vga;
 
-char webpage[] PROGMEM = R"=====(
-<!DOCTYPE html>
+char webpage[] PROGMEM = R"=====(<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -21,9 +20,33 @@ char webpage[] PROGMEM = R"=====(
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Keyboard</title>
 <style>
+ div {
+    text-align: center;
+  }
+  body {
+      background-color: #040404;
+  }
+  button {
+    background-color: black;
+    color: white;
+  }
+  .mainContainer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%);
+  }
 </style>
 </head>
 <body>
+  <div class="mainContainer">
+      <div>
+        <input type="textbox" id="text">
+      </div>
+      <div>
+        <button id="btn">Submit</button>
+      </div>
+  </div>
 </body>
 <script>
 </script>
